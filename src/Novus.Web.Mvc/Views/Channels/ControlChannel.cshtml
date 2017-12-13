@@ -1,0 +1,232 @@
+﻿@using Novus.Web.Startup
+@using Novus.Web.Models.Channels
+@model ControlChannelViewModel
+@{
+    ViewBag.CurrentPageName = PageNames.Channels;
+}
+@section styles
+{
+    <environment names="Development">
+        <link href="~/lib/bootstrap-toggle/css/bootstrap-toggle.min.css" rel="stylesheet">
+    </environment>
+}
+
+@section scripts
+{
+    <environment names="Development">
+        <script src="~/view-resources/Views/Channels/Index.js" asp-append-version="true"></script>
+        <script src="~/lib/bootstrap-toggle/js/bootstrap-toggle.min.js"></script>
+        <script src="~/lib/jquery-knob/dist/jquery.knob.min.js"></script>
+        <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+        <script>
+            $(function() {
+                $('#toggle-relay').change(function() {
+                    postData("@Model.Channel.ChannelGuid", 'relay', $(this).prop("checked"));
+                });
+                $('#toggle-led').change(function() {
+                    postData("@Model.Channel.ChannelGuid", 'led', $(this).prop("checked"));
+                });
+                $('#toggle-buzzer').change(function() {
+                    postData("@Model.Channel.ChannelGuid", 'buzzer', $(this).prop("checked"));
+                }); 
+    
+                $(".knob").knob({
+                    'displayPrevious': 'true',
+                    'fgColor': '#222222',
+                    'displayInput':'false',
+                    'release': function(value) {
+                        postData("@Model.Channel.ChannelGuid", 'servo', value);
+                    }
+                });
+            });
+        </script>
+        <script>
+            function postData(a, n, v) {
+                var dataDevice = {
+                    ApiKey: a,
+                    DeviceName: n,
+                    Value: v
+                };
+
+                jQuery.ajax({
+                    type: "POST",
+                    url: '/Channels/SendData',
+                    contentType: "application/json; charset=utf-8",
+                    data: JSON.stringify(dataDevice),
+
+                    dataType: "json",
+                    success: function() {
+                        swal("Command sent!", {
+                            icon: "success",
+                            buttons: false,
+                            timer: 900
+                        });
+                    },
+                    error: function(xhr) {
+                        swal("Something went wrong!", {
+                            icon: "error",
+                            buttons: false,
+                            timer: 900
+                        });
+                    }
+                });
+            }
+    
+        </script>
+    </environment>
+
+    <environment names="Staging,Production">
+        <script src="~/view-resources/Views/Channels/Index.min.js" asp-append-version="true"></script>
+        <script src="~/lib/jquery-knob/dist/jquery.knob.min.js"></script>
+    </environment>    
+}
+
+@if (Model.Channel.VideoFeedUrl.Contains("http"))
+{
+    <div class="row clearfix">
+        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+            <div class="card">
+                <div class="header">
+                    <h2>
+                        @L("Video")
+                    </h2>
+                </div>
+                <div class="body text-center">
+                    <img id="video" width="640" height="480" src="Model.Channel.VideoFeedUrl">
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+@{
+    var charts = new bool[8];
+    charts[0] = Model.Channel.Field1;
+    charts[1] = Model.Channel.Field2;
+    charts[2] = Model.Channel.Field3;
+    charts[3] = Model.Channel.Field4;
+    charts[4] = Model.Channel.Field5;
+    charts[5] = Model.Channel.Field6;
+    charts[6] = Model.Channel.Field7;
+    charts[7] = Model.Channel.Field8;
+    if (charts.Any(e => e.Equals(true)))
+    {
+        <div class="row clearfix">
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <div class="card">
+                    <div class="header">
+                        <h2>
+                            @L("ThingspeakCharts")
+                        </h2>
+                    </div>
+                    <div class="body">
+                        <div class="row clearfix">
+                            @foreach (var chart in charts)
+                            {
+                                if (chart)
+                                {                                            
+                                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                                        <iframe width="450" height="260" style="border: 1px solid #cccccc;" src="https://thingspeak.com/channels/341628/charts/2?bgcolor=%23ffffff&color=%23d62020&dynamic=true&results=60&type=line&update=15"></iframe>
+                                    </div>
+                                }
+                            }
+                        </div> 
+                    </div>
+                </div>
+            </div>
+        </div>
+    } 
+}
+
+<div class="row clearfix">
+    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+        <div class="card">
+            <div class="header">
+                <h2>
+                    @L("ControlChannel")
+                </h2>
+            </div>
+            <div class="body">
+                <div class="row clearfix">
+                    <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
+                        <div class="card">
+                            <div class="header">
+                                <h2>Relay</h2>
+                            </div>
+                            <div class="body">
+                                <div class="row">
+                                    <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12 vcenter">
+                                        <input id="toggle-relay" type="checkbox" data-toggle="toggle">
+                                    </div>
+                                    <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12 vcenter">
+                                        <img src="~/images/components/Grove_Relay.svg" alt="Relay"/>
+                                    </div>
+                                </div>
+                            
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
+                        <div class="card">
+                            <div class="header">
+                                <h2>Led</h2>
+                            </div>
+                            <div class="body">
+                                <div class="row">
+                                    <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12 vcenter">
+                                        <input id="toggle-led" type="checkbox" data-toggle="toggle">
+                                    </div>
+                                    <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12 vcenter">
+                                        <img src="~/images/components/Grove_LED_Red.svg" alt="Led"/>
+                                    </div>
+                                </div>
+                            
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
+                        <div class="card">
+                            <div class="header">
+                                <h2>Buzzer</h2>
+                            </div>
+                            <div class="body">
+                                <div class="row">
+                                    <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12 vcenter">
+                                        <input id="toggle-buzzer" type="checkbox" data-toggle="toggle">
+                                    </div>
+                                    <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12 vcenter">
+                                        <img src="~/images/components/Grove_Buzzer.svg" alt="Relay"/>
+                                    </div>
+                                </div>
+                            
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row clearfix">
+                    <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
+                        <div class="card">
+                            <div class="header">
+                                <h2>Servo</h2>
+                            </div>
+                            <div class="body">
+                                <div class="row clearfix">
+                                    <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12 vcenter" style="display:inline;width:150px;height:200px;">
+                                        
+                                        <input type="text" class="knob" value="0" data-min="0" data-max="180" data-width="125" data-height="125" data-thickness="0.25" data-angleArc="250" data-angleoffset="-125"
+                                               data-fgColor="#F44336">
+                                    </div>
+                                    <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12 vcenter">
+                                        <img src="~/images/components/servo.svg" alt="Servo"/>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+            </div>
+        </div>
+    </div>
+</div>
+

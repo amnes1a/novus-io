@@ -19,22 +19,22 @@
             deleteChannel(channelId, channelName);
         });
         
-            /*
-            $('.edit-tenant').click(function (e) {
-            var tenantId = $(this).attr("data-tenant-id");
+        
+        $('.edit-channel').click(function (e) {
+            var channelId = $(this).attr("data-channel-id");
 
             e.preventDefault();
             $.ajax({
-                url: abp.appPath + 'Tenants/EditTenantModal?tenantId=' + tenantId,
+                url: abp.appPath + 'Channels/EditChannelModal?channelId=' + channelId,
                 type: 'POST',
                 contentType: 'application/html',
                 success: function (content) {
-                    $('#TenantEditModal div.modal-content').html(content);
+                    $('#ChannelEditModal div.modal-content').html(content);
                 },
                 error: function (e) { }
             });
         });
-        */
+        
             
             _$form.find('button[type="submit"]').click(function (e) {
             e.preventDefault();

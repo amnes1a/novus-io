@@ -35,6 +35,30 @@ namespace Novus.Channels
             return new ListResultDto<ChannelDto>(ObjectMapper.Map<List<ChannelDto>>(channels)); 
         }
         
+        public override async Task<ChannelDto> Update(ChannelDto input)
+        {
+            var channel = await _repository.GetAsync(input.Id);
+
+            //TODO: Fix AutoMapper
+            channel.ChannelName = input.ChannelName;
+            channel.Field1 = input.Field1;
+            channel.Field2 = input.Field2;
+            channel.Field3 = input.Field3;
+            channel.Field4 = input.Field4;
+            channel.Field5 = input.Field5;
+            channel.Field6 = input.Field6;
+            channel.Field7 = input.Field7;
+            channel.Field8 = input.Field8;
+            if(input.ThingSpeakId != null)
+                channel.ThingSpeakId = (int)input.ThingSpeakId;
+            channel.VideoFeedUrl = input.VideoFeedUrl;
+            
+            
+            await _repository.UpdateAsync(channel);
+
+            return await Get(input);
+        }
+        
         public override async Task<ChannelDto> Create(CreateChannelDto input)
         {
             var channel = ObjectMapper.Map<Channel>(input);

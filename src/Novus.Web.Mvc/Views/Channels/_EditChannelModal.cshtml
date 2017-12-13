@@ -1,0 +1,86 @@
+﻿@using Novus.Web.Models.Common.Modals
+@model Novus.Web.Models.Channels.EditChannelModalViewModel
+@{
+    Layout = null;
+}
+
+@Html.Partial("~/Views/Shared/Modals/_ModalHeader.cshtml", new ModalHeaderViewModel(L("EditChannel")))
+
+<div class="modal-body">
+    <form name="channelEditForm" role="form" novalidate class="form-validation">
+        <input type="hidden" name="Id" value="@Model.Channel.Id" />
+        <ul class="nav nav-tabs tab-nav-right" role="tablist">
+            <li role="presentation" class="active"><a href="#edit-state-details" data-toggle="tab">@L("ChannelDetails")</a></li>
+        </ul>
+        <div class="tab-content">
+            <div role="tabpanel" class="tab-pane animated fadeIn active" id="edit-state-details">
+                <div class="row clearfix" style="margin-top:10px;">
+                    <div class="col-sm-12">
+                        <div class="form-group form-float">
+                            <label for="channelName" class="form-label">@L("ChannelName")</label>
+                            <div class="form-line">
+                                <input id="channelName" type="text" name="channelName" value="@Model.Channel.ChannelName" required minlength="2" class="validate form-control">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-12">
+                        <div class="form-group form-float">
+                            <label for="thingSpeakId" class="form-label">@L("ThingspeakChannelId")</label>
+                            <div class="form-line">
+                                <input id="thingSpeakId" type="text" name="thingSpeakId" value="@Model.Channel.ThingSpeakId" minlength="2" class="validate form-control">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row clearfix">
+                        <div class="col-sm-12">
+                            <div class="col-sm-3">
+                                <input type="checkbox" name="field1" value="true" class="filled-in" id="field1" @(Model.Channel.Field1 ? "checked" : "") />
+                                <label for="field1">Field 1</label>
+                            </div>
+                            <div class="col-sm-3">
+                                <input type="checkbox" name="field2" value="true" class="filled-in" id="field2" @(Model.Channel.Field2 ? "checked" : "") />
+                                <label for="field2">Field 2</label>
+                            </div>
+                            <div class="col-sm-3">
+                                <input type="checkbox" name="field3" value="true" class="filled-in" id="field3" @(Model.Channel.Field3 ? "checked" : "") />
+                                <label for="field3">Field 3</label>
+                            </div>
+                            <div class="col-sm-3">
+                                <input type="checkbox" name="field4" value="true" class="filled-in" id="field4" @(Model.Channel.Field4 ? "checked" : "") />
+                                <label for="field4">Field 4</label>
+                            </div>
+                            <div class="col-sm-3">
+                                <input type="checkbox" name="field5" value="true" class="filled-in" id="field5" @(Model.Channel.Field5 ? "checked" : "") />
+                                <label for="field5">Field 5</label>
+                            </div>
+                            <div class="col-sm-3">
+                                <input type="checkbox" name="field6" value="true" class="filled-in" id="field6" @(Model.Channel.Field6 ? "checked" : "") />
+                                <label for="field6">Field 6</label>
+                            </div>
+                            <div class="col-sm-3">
+                                <input type="checkbox" name="field7" value="true" class="filled-in" id="field7" @(Model.Channel.Field7 ? "checked" : "") />
+                                <label for="field7">Field 7</label>
+                            </div>
+                            <div class="col-sm-3">
+                                <input type="checkbox" name="field8" value="true" class="filled-in" id="field8" @(Model.Channel.Field8 ? "checked" : "") />
+                                <label for="field8">Field 8</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-12">
+                        <div class="form-group form-float">
+                            <label for="videoFeedUrl" class="form-label">@L("VideoFeedUrl")</label>
+                            <div class="form-line">
+                                <input id="videoFeedUrl" type="text" name="videoFeedUrl" value="@Model.Channel.VideoFeedUrl" minlength="2" class="validate form-control">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+
+@Html.Partial("~/Views/Shared/Modals/_ModalFooterWithSaveAndCancel.cshtml")
+
+<script src="~/view-resources/Views/Channels/_EditChannelModal.js" asp-append-version="true"></script>

@@ -1,10 +1,11 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using Abp.Application.Services.Dto;
 using Abp.AutoMapper;
+using JetBrains.Annotations;
 
 namespace Novus.Channels.Dto
 {
-    [AutoMapFrom(typeof(Channel))]
+    [AutoMap(typeof(Channel))]
     public class ChannelDto : FullAuditedEntityDto<long>
     {
         [Required]
@@ -12,7 +13,7 @@ namespace Novus.Channels.Dto
         
         public string ChannelGuid { get; set; }
         
-        public int ThingSpeakId { get; set; }
+        public int? ThingSpeakId { get; set; }
         
         public bool Field1 { get; set; }
         
@@ -30,6 +31,7 @@ namespace Novus.Channels.Dto
         
         public bool Field8 { get; set; }
         
+        [CanBeNull]
         public string VideoFeedUrl { get; set; }
     }
 }

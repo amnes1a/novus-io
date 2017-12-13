@@ -44,7 +44,7 @@
                         <tr>
                             <th>@L("ChannelName")</th>
                             <th>@L("ChannelGuid")</th>
-                            <th>@L("Actions")</th>
+                            <th colspan="2">@L("Actions")</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -58,9 +58,15 @@
                                         <i class="material-icons">menu</i>
                                     </a>
                                     <ul class="dropdown-menu pull-right">
-                                        <li><a href="#" class="waves-effect waves-block edit-tenant" data-channel-id="@channel.Id" data-toggle="modal" data-target="#TenantEditModal"><i class="material-icons">edit</i>@L("Edit")</a></li>
+                                        <li><a href="#" class="waves-effect waves-block edit-channel" data-channel-id="@channel.Id" data-toggle="modal" data-target="#ChannelEditModal"><i class="material-icons">edit</i>@L("Edit")</a></li>
                                         <li><a href="#" class="waves-effect waves-block delete-channel" data-channel-id="@channel.Id" data-channel-name="@channel.ChannelName"><i class="material-icons">delete_sweep</i>@L("Delete")</a></li>
                                     </ul>
+                                </td>
+                                <td>
+                                    <a class="btn bg-indigo waves-effect"
+                                       asp-controller="Channels" 
+                                       asp-action="ControlChannel" 
+                                       asp-route-id="@channel.Id">Control</a>
                                 </td>
                             </tr>
                         }
@@ -109,10 +115,10 @@
                 </div>
             </form>
         </div>
-    </div>
+    </div>¡
 </div>
 
-<div class="modal fade" id="TenantEditModal" tabindex="-1" role="dialog" aria-labelledby="TenantEditModalLabel" data-backdrop="static">
+<div class="modal fade" id="ChannelEditModal" tabindex="-1" role="dialog" aria-labelledby="ChannelEditModalLabel" data-backdrop="static">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
 

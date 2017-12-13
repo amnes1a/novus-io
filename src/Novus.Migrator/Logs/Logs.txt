@@ -1,0 +1,22 @@
+﻿DEBUG 2017-12-12 18:52:45,367 [2    ] Abp.Modules.AbpModuleManager             - Loading Abp modules...
+DEBUG 2017-12-12 18:52:45,404 [2    ] Abp.Modules.AbpModuleManager             - Found 9 ABP modules in total.
+DEBUG 2017-12-12 18:52:45,615 [2    ] Abp.Modules.AbpModuleManager             - Loaded module: Novus.Migrator.NovusMigratorModule, Novus.Migrator, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+DEBUG 2017-12-12 18:52:45,617 [2    ] Abp.Modules.AbpModuleManager             - Loaded module: Novus.EntityFrameworkCore.NovusEntityFrameworkModule, Novus.EntityFrameworkCore, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+DEBUG 2017-12-12 18:52:45,618 [2    ] Abp.Modules.AbpModuleManager             - Loaded module: Novus.NovusCoreModule, Novus.Core, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+DEBUG 2017-12-12 18:52:45,618 [2    ] Abp.Modules.AbpModuleManager             - Loaded module: Abp.Zero.AbpZeroCoreModule, Abp.ZeroCore, Version=3.2.4.0, Culture=neutral, PublicKeyToken=null
+DEBUG 2017-12-12 18:52:45,618 [2    ] Abp.Modules.AbpModuleManager             - Loaded module: Abp.Zero.AbpZeroCommonModule, Abp.Zero.Common, Version=3.2.4.0, Culture=neutral, PublicKeyToken=null
+DEBUG 2017-12-12 18:52:45,618 [2    ] Abp.Modules.AbpModuleManager             - Loaded module: Abp.AbpKernelModule, Abp, Version=3.2.4.0, Culture=neutral, PublicKeyToken=null
+DEBUG 2017-12-12 18:52:45,619 [2    ] Abp.Modules.AbpModuleManager             - Loaded module: Abp.Zero.EntityFrameworkCore.AbpZeroCoreEntityFrameworkCoreModule, Abp.ZeroCore.EntityFrameworkCore, Version=3.2.4.0, Culture=neutral, PublicKeyToken=null
+DEBUG 2017-12-12 18:52:45,619 [2    ] Abp.Modules.AbpModuleManager             - Loaded module: Abp.EntityFrameworkCore.AbpEntityFrameworkCoreModule, Abp.EntityFrameworkCore, Version=3.2.4.0, Culture=neutral, PublicKeyToken=null
+DEBUG 2017-12-12 18:52:45,619 [2    ] Abp.Modules.AbpModuleManager             - Loaded module: Abp.EntityFramework.AbpEntityFrameworkCommonModule, Abp.EntityFramework.Common, Version=3.2.4.0, Culture=neutral, PublicKeyToken=null
+DEBUG 2017-12-12 18:52:45,623 [2    ] Abp.Modules.AbpModuleManager             - 9 modules loaded.
+DEBUG 2017-12-12 18:52:45,878 [2    ] ameworkCore.AbpEntityFrameworkCoreModule - Registering DbContext: Novus.EntityFrameworkCore.NovusDbContext, Novus.EntityFrameworkCore, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+DEBUG 2017-12-12 18:52:46,298 [2    ] Abp.Localization.LocalizationManager     - Initializing 3 localization sources.
+DEBUG 2017-12-12 18:52:46,310 [2    ] Abp.Localization.LocalizationManager     - Initialized localization source: Abp
+DEBUG 2017-12-12 18:52:46,315 [2    ] Abp.Localization.LocalizationManager     - Initialized localization source: AbpZero
+DEBUG 2017-12-12 18:52:46,318 [2    ] Abp.Localization.LocalizationManager     - Initialized localization source: Novus
+INFO  2017-12-12 18:52:46,506 [2    ] Novus.Migrator.Log                       - Host database: Server=localhost; Database=NovusDb; Trusted_Connection=True;
+INFO  2017-12-12 18:52:46,506 [2    ] Novus.Migrator.Log                       - Continue to migration for this host database and all tenants..? (Y/N): 
+INFO  2017-12-12 18:53:10,328 [2    ] Novus.Migrator.Log                       - Migration canceled.
+DEBUG 2017-12-12 18:53:10,329 [2    ] Abp.Modules.AbpModuleManager             - Shutting down has been started
+DEBUG 2017-12-12 18:53:10,329 [2    ] Abp.Modules.AbpModuleManager             - Shutting down completed.
