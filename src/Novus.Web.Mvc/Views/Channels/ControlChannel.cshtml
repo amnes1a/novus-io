@@ -9,12 +9,15 @@
     <environment names="Development">
         <link href="~/lib/bootstrap-toggle/css/bootstrap-toggle.min.css" rel="stylesheet">
     </environment>
+    
+    <environment names="Staging,Production">
+        <link href="~/lib/bootstrap-toggle/css/bootstrap-toggle.min.css" rel="stylesheet">
+    </environment>
 }
 
 @section scripts
 {
     <environment names="Development">
-        <script src="~/view-resources/Views/Channels/Index.js" asp-append-version="true"></script>
         <script src="~/lib/bootstrap-toggle/js/bootstrap-toggle.min.js"></script>
         <script src="~/lib/jquery-knob/dist/jquery.knob.min.js"></script>
         <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
@@ -23,19 +26,25 @@
                 $('#toggle-relay').change(function() {
                     postData("@Model.Channel.ChannelGuid", 'relay', $(this).prop("checked"));
                 });
-                $('#toggle-led').change(function() {
-                    postData("@Model.Channel.ChannelGuid", 'led', $(this).prop("checked"));
-                });
                 $('#toggle-buzzer').change(function() {
                     postData("@Model.Channel.ChannelGuid", 'buzzer', $(this).prop("checked"));
                 }); 
     
-                $(".knob").knob({
+                $("#knobServo").knob({
                     'displayPrevious': 'true',
                     'fgColor': '#222222',
                     'displayInput':'false',
                     'release': function(value) {
                         postData("@Model.Channel.ChannelGuid", 'servo', value);
+                    }
+                });
+                
+                $("#knobLed").knob({
+                    'displayPrevious': 'true',
+                    'fgColor': '#222222',
+                    'displayInput':'false',
+                    'release': function(value) {
+                        postData("@Model.Channel.ChannelGuid", 'led', value);
                     }
                 });
             });
@@ -76,8 +85,72 @@
     </environment>
 
     <environment names="Staging,Production">
-        <script src="~/view-resources/Views/Channels/Index.min.js" asp-append-version="true"></script>
+        <script src="~/lib/bootstrap-toggle/js/bootstrap-toggle.min.js"></script>
         <script src="~/lib/jquery-knob/dist/jquery.knob.min.js"></script>
+        <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+        <script>
+            $(function() {
+                $('#toggle-relay').change(function() {
+                    postData("@Model.Channel.ChannelGuid", 'relay', $(this).prop("checked"));
+                });
+                $('#toggle-buzzer').change(function() {
+                    postData("@Model.Channel.ChannelGuid", 'buzzer', $(this).prop("checked"));
+                });
+
+                $("#knobServo").knob({
+                    'displayPrevious': 'true',
+                    'fgColor': '#222222',
+                    'displayInput':'false',
+                    'release': function(value) {
+                        postData("@Model.Channel.ChannelGuid", 'servo', value);
+                    }
+                });
+                
+                $("#knobLed").knob({
+                    'displayPrevious': 'true',
+                    'fgColor': '#222222',
+                    'displayInput':'false',
+                    'release': function(value) {
+                        postData("@Model.Channel.ChannelGuid", 'led', value);
+                    }
+                });
+            });
+        </script>
+        <script>
+            function postData(a, n, v) {
+                var dataDevice = {
+                    ApiKey: a,
+                    DeviceName: n,
+                    Value: v
+                };
+
+                jQuery.ajax({
+                    type: "POST",
+                    url: '/Channels/SendData',
+                    contentType: "application/json; charset=utf-8",
+                    data: JSON.stringify(dataDevice),
+
+                    dataType: "json",
+                    success: function() {
+                        swal("Command sent!",
+                            {
+                                icon: "success",
+                                buttons: false,
+                                timer: 900
+                            });
+                    },
+                    error: function(xhr) {
+                        swal("Something went wrong!",
+                            {
+                                icon: "error",
+                                buttons: false,
+                                timer: 900
+                            });
+                    }
+                });
+            }
+
+        </script>
     </environment>    
 }
 
@@ -92,7 +165,7 @@
                     </h2>
                 </div>
                 <div class="body text-center">
-                    <img id="video" width="640" height="480" src="Model.Channel.VideoFeedUrl">
+                    <img id="video" width="640" height="480" src="@Model.Channel.VideoFeedUrl">
                 </div>
             </div>
         </div>
@@ -116,17 +189,17 @@
                 <div class="card">
                     <div class="header">
                         <h2>
-                            @L("ThingspeakCharts")
+                            @L("MonitorCharts")
                         </h2>
                     </div>
                     <div class="body">
                         <div class="row clearfix">
-                            @foreach (var chart in charts)
+                            @for(var chart = 0; chart <= 7; chart++)
                             {
-                                if (chart)
+                                if (charts[chart])
                                 {                                            
                                     <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
-                                        <iframe width="450" height="260" style="border: 1px solid #cccccc;" src="https://thingspeak.com/channels/341628/charts/2?bgcolor=%23ffffff&color=%23d62020&dynamic=true&results=60&type=line&update=15"></iframe>
+                                        <iframe width="450" height="260" style="border: 1px solid #cccccc;" src="http://10.32.85.251/channels/@Model.Channel.ThingSpeakId/charts/@(chart+1)?bgcolor=%23ffffff&color=%23d62020&dynamic=true&results=60&type=line&update=15"></iframe>
                                     </div>
                                 }
                             }
@@ -173,8 +246,9 @@
                             </div>
                             <div class="body">
                                 <div class="row">
-                                    <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12 vcenter">
-                                        <input id="toggle-led" type="checkbox" data-toggle="toggle">
+                                    <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12 vcenter" style="display:inline;width:150px;height:200px;">
+                                        <input type="text" id="knobLed" class="knob" value="0" data-min="0" data-max="255" data-width="125" data-height="125" data-thickness="0.25" data-angleArc="250" data-angleoffset="-125"
+                                               data-fgColor="#F44336">
                                     </div>
                                     <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12 vcenter">
                                         <img src="~/images/components/Grove_LED_Red.svg" alt="Led"/>
@@ -213,7 +287,7 @@
                                 <div class="row clearfix">
                                     <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12 vcenter" style="display:inline;width:150px;height:200px;">
                                         
-                                        <input type="text" class="knob" value="0" data-min="0" data-max="180" data-width="125" data-height="125" data-thickness="0.25" data-angleArc="250" data-angleoffset="-125"
+                                        <input type="text" id="knobServo" class="knob" value="0" data-min="0" data-max="180" data-width="125" data-height="125" data-thickness="0.25" data-angleArc="250" data-angleoffset="-125"
                                                data-fgColor="#F44336">
                                     </div>
                                     <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12 vcenter">
